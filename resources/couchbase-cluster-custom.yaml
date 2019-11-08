@@ -1,0 +1,68 @@
+apiVersion: couchbase.com/v1
+kind: CouchbaseCluster
+metadata:
+  name: cb-example
+spec:
+  baseImage: couchbase/server
+  version: enterprise-6.0.3
+  authSecret: cb-example-auth
+  exposeAdminConsole: true
+  cluster:
+    dataServiceMemoryQuota: 256
+    indexServiceMemoryQuota: 256
+    searchServiceMemoryQuota: 256
+    eventingServiceMemoryQuota: 256
+    analyticsServiceMemoryQuota: 1024
+    indexStorageSetting: memory_optimized
+    autoFailoverTimeout: 120
+    autoFailoverMaxCount: 3
+    autoFailoverOnDataDiskIssues: true
+    autoFailoverOnDataDiskIssuesTimePeriod: 120
+    autoFailoverServerGroup: false
+  buckets:
+    - name: default
+      type: couchbase
+      memoryQuota: 128
+      replicas: 1
+      ioPriority: high
+      evictionPolicy: fullEviction
+      conflictResolution: seqno
+      enableFlush: true
+      enableIndexReplica: false
+  servers:
+    - size: 3 
+      name: data
+      services:
+        - data
+      pod:
+        resources:
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+        requests:
+            cpu: 4000m
+            memory: 8Gi
+    - size: 2
+      name: query
+      services:
+        - query
+      pod:
+        resources:
+          limits:
+            cpu: 8000m
+            memory: 4Gi
+        requests:
+            cpu: 8000m
+            memory: 4Gi
+    - size: 2 
+      name: index 
+      services:
+        - index
+      pod:
+        resources:
+          limits:
+            cpu: 8000m
+            memory: 8Gi
+        requests:
+            cpu: 8000m
+            memory: 8Gi

@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: karthiks
+  name: skarthik
   labels:
-    name: karthiks
+    name: skarthik

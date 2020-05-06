@@ -3,40 +3,40 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: couchbase-operator-admission
 subjects:
 - kind: ServiceAccount
-  name: couchbase-operator-admission-karthiks
-  namespace: karthiks
+  name: couchbase-operator-admission-skarthik
+  namespace: skarthik
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: couchbase-operator-admission-karthiks
+      app: couchbase-operator-admission-skarthik
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: couchbase-operator-admission-karthiks
+        app: couchbase-operator-admission-skarthik
     spec:
       containers:
       - args:
@@ -50,18 +50,18 @@ spec:
         command:
         - couchbase-operator-admission
         image: couchbase/admission-controller:1.2.1
-        name: couchbase-operator-admission-karthiks
+        name: couchbase-operator-admission-skarthik
         ports:
         - containerPort: 8443
           name: https
         resources: {}
         volumeMounts:
         - mountPath: /var/run/secrets/couchbase.com/couchbase-operator-admission
-          name: couchbase-operator-admission-karthiks
+          name: couchbase-operator-admission-skarthik
           readOnly: true
-      serviceAccountName: couchbase-operator-admission-karthiks
+      serviceAccountName: couchbase-operator-admission-skarthik
       volumes:
-      - name: couchbase-operator-admission-karthiks
+      - name: couchbase-operator-admission-skarthik
         secret:
           secretName: couchbase-operator-admission
 status: {}
@@ -71,14 +71,14 @@ apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 spec:
   ports:
   - port: 443
     protocol: TCP
     targetPort: 8443
   selector:
-    app: couchbase-operator-admission-karthiks
+    app: couchbase-operator-admission-skarthik
 status:
   loadBalancer: {}
 
@@ -87,15 +87,15 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 webhooks:
 - clientConfig:
     caBundle: ###CABUNDLE###
     service:
-      name: couchbase-operator-admission-karthiks
-      namespace: karthiks
+      name: couchbase-operator-admission-skarthik
+      namespace: skarthik
       path: /couchbaseclusters/mutate
-  name: couchbase-operator-admission-karthiks.karthiks.svc
+  name: couchbase-operator-admission-skarthik.skarthik.svc
   rules:
   - apiGroups:
     - couchbase.com
@@ -112,15 +112,15 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
   creationTimestamp: null
-  name: couchbase-operator-admission-karthiks
+  name: couchbase-operator-admission-skarthik
 webhooks:
 - clientConfig:
     caBundle: ###CABUNDLE###
     service:
-      name: couchbase-operator-admission-karthiks
-      namespace: karthiks
+      name: couchbase-operator-admission-skarthik
+      namespace: skarthik
       path: /couchbaseclusters/validate
-  name: couchbase-operator-admission-karthiks.karthiks.svc
+  name: couchbase-operator-admission-skarthik.skarthik.svc
   rules:
   - apiGroups:
     - couchbase.com
